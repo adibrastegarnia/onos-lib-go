@@ -24,14 +24,14 @@ There are two methods that a user can use to add a logger to a package or go pro
 *  Create a logger using the default configuration as follows: 
    
 ```bash
-     log, := logging.GetLogger("controller", "device")
- ``` 
+log, := logging.GetLogger("controller", "device")
+``` 
  
 * Create a logger using a custom configuration as follows:
     
 ```bash
-   cfg := logging.Configuration{}
-   	cfg.SetEncoding("json").
+cfg := logging.Configuration{}
+      cfg.SetEncoding("json").
    		SetLevel(logging.WarnLevel).
    		SetOutputPaths([]string{"stdout"}).
    		SetName("controller", "device", "change").
@@ -42,7 +42,7 @@ There are two methods that a user can use to add a logger to a package or go pro
    		SetECTimeEncoder(zc.ISO8601TimeEncoder).
    		SetECEncodeLevel(zc.CapitalLevelEncoder).
    		Build()
-   	log := cfg.GetLogger() 
+log := cfg.GetLogger() 
 ``` 
   
 ### Change Log Level at Runtime
@@ -67,14 +67,14 @@ Currently, we support enabling one Kafka sink for a logger. To do so, you can ru
 logs to a Kafka cluster:
 
 ```bash
-sinkUrl := logging.SinkURL{url.URL{Scheme: "kafka", Host: "127.0.0.1:9092", RawQuery: "topic=test_log_topic&key=test-key"}}
-log.EnableSink(sinkURL)
+sinkUrl := logging.SinkURL{url.URL{Scheme: "kafka", Host: "kafka-headless:9092", RawQuery: "topic=traces&key=test-partition-10"}}
+log.AddSink(sinkUrl)
 ```
 
-And to disable writing to the Kafka cluster,
+And to disable writing to the Kafka cluster, you can remove the sink as follows:
 
 ```bash
-log.DisableSink()
+log.RemoveSink()
 ```
 
 
